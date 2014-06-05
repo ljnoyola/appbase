@@ -11,6 +11,7 @@ import json
 from context_processors import *
 from forms import *
 from models import *
+from django.core import serializers
 
 def inicio(request):
 	globales = variables_globales(request)
@@ -96,6 +97,7 @@ def index(request):
 
 @csrf_exempt
 def validar_login(request):
+	usuarios=serializers.serialize('json',Usuario.objects.all())
 	usuario = request.POST['usuario']
 	password = request.POST['password']
 	acceso = authenticate(username=str(usuario), password=str(password))
@@ -105,12 +107,14 @@ def validar_login(request):
 				data = {'access':True, 'mensaje':'Bienvenido'}
 			else:
 				mensaje="Tu usuario esta desactivado"
-				data = {'mensaje':mensaje, 'access':False}	
+				data = {'access':False, 'mensaje':mensaje, 'usuarios':usuarios}	
 	else:
 		mensaje="Usuario o contraseña incorrecta"
-		data = {'access':False, 'mensaje':mensaje}
+		data = {'access':False, 'mensaje':mensaje, 'usuarios':usuarios}
 	http_response = HttpResponse(json.dumps(data),mimetype='application/json')
 	return http_response
+
+
 
 
 

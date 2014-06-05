@@ -141,7 +141,7 @@
 															<i class="icon-shopping-cart"></i>
 														</div>
 														<div class="infobox-data">
-															<span class="infobox-data-number">{{ paletas|length }}</span>
+															<span class="infobox-data-number">  <p id="elementos"> 0 <p> </span>
 															<div class="infobox-content"></div>
 														</div>
 														<div class="stat stat-important"></div>
@@ -162,11 +162,12 @@
 																	<li class="dd-item" data-id="{{ elementos.id }}">
 																		{% for productos in elementos.productos %}
 																			<div class="dd-handle">							
-																				{{ productos|upper }}					
+																				{{ productos|upper }}	
+
 																			<div class="pull-right action-buttons">
-																				<a class="green" href="#">
+																				<a class="green venta" value="{{ elementos.id }}" id ="{{ elementos.id }}" href="#">
 																				<i class="icon-ok bigger-130"></i>
-																				</a>
+																				</a>																				
 																				<a class="blue" href="#">
 																				<i class="icon-pencil bigger-130"></i>
 																				</a>
@@ -220,11 +221,64 @@
 																</script>
 																<script src="/static/ace/assets/js/bootstrap.min.js"></script>
 																<script src="/static/ace/assets/js/typeahead-bs2.min.js"></script>
-																<script src="/static/django/formularios.js"></script>
+																<script src="/static/js/formularios.js"></script>
 																<!-- page specific plugin scripts -->
 																<!-- ace scripts -->
 																<script src="/static/ace/assets/js/ace-elements.min.js"></script>
 																<script src="/static/ace/assets/js/ace.min.js"></script>
+
+																<script src="/static/js/jquery.cookie.js"></script>	
+
+																<script type="text/javascript">
+
+																	
+																	venta=$.cookie('ventas')
+																	 venta=JSON.parse(venta)
+																	 tam = venta.length;
+																	 
+																	 $('#elementos').empty()
+																	 $('#elementos').append(tam);
+
+																	 console.log(venta)
+
+
+																	$( ".venta" ).click(function() {
+																	  //alert($(this).attr("id"))
+
+
+																	  if ($.cookie('ventas')==undefined){
+																	  	ventas = []
+																	  	$.cookie('ventas', JSON.stringify(ventas));
+																	  	venta=$.cookie('ventas')
+																	  	venta=JSON.parse(venta)
+																	  	a = [$(this).attr("id") , $('#id_nombre').val()]
+																	  	venta.push(  a   );
+																	  	console.log(venta)
+																	  	$.cookie('ventas', JSON.stringify(venta));
+																	  	tam = venta.length;
+																		 $('#elementos').empty()
+																		 $('#elementos').append(tam);
+																	  }
+																	  else{
+																	  	venta=$.cookie('ventas')
+																	  	venta=JSON.parse(venta)
+																	  	a = [$(this).attr("id") , $('#id_nombre').val()]
+																	  	venta.push(  a   );
+																	  	console.log(venta)
+																	  	$.cookie('ventas', JSON.stringify(venta));
+																	  	tam = venta.length;
+																		 $('#elementos').empty()
+																		 $('#elementos').append(tam);
+																	  }
+																	});
+																</script>
+
+
+
+																
+
+
+
 																<!-- inline scripts related to this page -->
 															</body>
 														</html>

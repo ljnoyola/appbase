@@ -287,15 +287,20 @@
 					dataType: 'json',
 					url: '{%url "validar_login"%}',
 					data: data,
+
 					success: function(data){
-						console.log(data)
 						if(data.access==true){
 							alert('Bienvenido')
 							location.reload();
 						}
 						else{
-							alert('Contraseña incorrecta')
+							datos=JSON.parse(data.usuarios)
+							$.each(datos, function(i,el){
+								console.log(el.fields.usuario)
+							});
 						}
+						
+						
 					},
 					error: function(data){
                       	alert("Algo salio mal")                                                                  
